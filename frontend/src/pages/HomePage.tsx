@@ -94,32 +94,21 @@ export function HomePage({ onStart }: HomePageProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1.5, delay: 0.4 }}
-                        className="relative w-full aspect-square max-w-[500px] flex items-center justify-center"
+                        className="relative w-full aspect-square max-w-[600px] flex items-center justify-center"
                     >
-                        {/* Example Spline Component (Uncomment/Modify when ready) */}
-                        {/* <Spline scene="YOUR_SPLINE_URL_HERE" /> */}
-                        
-                        {/* Refined Placeholder: Minimalist floating geometry */}
-                        <div className="relative w-full h-full border border-white/5 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent backdrop-blur-sm flex items-center justify-center shadow-[0_0_80px_rgba(0,0,0,0.5)] overflow-hidden">
-                            {/* Inner architectural lines */}
-                            <div className="absolute top-0 bottom-0 left-1/3 border-l border-white/[0.03]" />
-                            <div className="absolute top-1/3 left-0 right-0 border-t border-white/[0.03]" />
-                            
-                            <div className="w-24 h-24 border border-[#d4af37]/30 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
-                                <div className="w-12 h-12 border border-white/20 rounded animate-[spin_10s_linear_infinite_reverse]" />
-                            </div>
-                            
-                            <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end pointer-events-none">
-                                <span className="font-mono text-[9px] tracking-widest text-[#555] uppercase">
-                                    Canvas_01.spline
-                                </span>
-                                <div className="flex gap-1">
-                                    <div className="w-1 h-1 bg-[#d4af37]/60 rounded-full" />
-                                    <div className="w-1 h-1 bg-white/20 rounded-full" />
-                                    <div className="w-1 h-1 bg-white/20 rounded-full" />
-                                </div>
-                            </div>
+                        {/* The interactive Spline landing animation */}
+                        <div className="absolute inset-0 rounded-3xl overflow-hidden mix-blend-screen shadow-[0_0_80px_rgba(212,175,55,0.05)]">
+                            <Spline 
+                                scene="/glass_donut.spline" 
+                                className="w-full h-full"
+                            />
                         </div>
+                        
+                        {/* Decorative corner accents to frame the Spline scene */}
+                        <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-white/20 rounded-tl-3xl pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-white/20 rounded-tr-3xl pointer-events-none" />
+                        <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-white/20 rounded-bl-3xl pointer-events-none" />
+                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/20 rounded-br-3xl pointer-events-none" />
                     </motion.div>
                 </div>
             </main>
