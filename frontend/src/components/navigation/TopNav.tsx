@@ -1,4 +1,4 @@
-import { Aperture } from 'lucide-react';
+import { SparklesIcon as Aperture } from '@heroicons/react/24/outline';
 
 export function TopNav() {
     return (

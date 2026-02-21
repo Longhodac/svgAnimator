@@ -1,4 +1,4 @@
-import { X } from 'lucide-react';
+import { XMarkIcon as X } from '@heroicons/react/24/outline';
 import Spline from '@splinetool/react-spline';
 
 interface VoiceInteractionModalProps {
@@ -10,15 +10,15 @@ export function VoiceInteractionModal({ isOpen, onClose }: VoiceInteractionModal
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-8 animate-in fade-in duration-300">
-            {/* Extremely heavy dark glassy overlay to focus entirely on the voice spline */}
+        <div className="fixed inset-0 z-50 flex items-center justify-end p-8 pointer-events-none">
+            {/* Background overlay */}
             <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-2xl"
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto transition-opacity duration-300"
                 onClick={onClose}
             />
 
-            {/* Modal Container */}
-            <div className="relative w-full max-w-4xl aspect-[16/9] rounded-3xl border border-white/10 bg-black/40 overflow-hidden shadow-[0_0_100px_rgba(59,130,246,0.2)] animate-in zoom-in-95 duration-500">
+            {/* Modal Container - Anchored to right */}
+            <div className="relative w-full max-w-md h-[calc(100vh-4rem)] rounded-3xl border border-white/10 bg-black/80 overflow-hidden shadow-[-20px_0_100px_rgba(0,0,0,0.5)] pointer-events-auto animate-in slide-in-from-right duration-500">
 
                 {/* Close Button */}
                 <button
@@ -35,8 +35,8 @@ export function VoiceInteractionModal({ isOpen, onClose }: VoiceInteractionModal
 
                 {/* Voice Status Text */}
                 <div className="absolute bottom-10 left-0 right-0 flex justify-center z-20 pointer-events-none">
-                    <div className="px-6 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                        <span className="text-white/80 font-mono tracking-widest uppercase text-sm animate-pulse">
+                    <div className="px-6 py-3 rounded-full bg-black/60 backdrop-blur-md border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                        <span className="text-white/80 font-mono tracking-widest uppercase text-xs animate-pulse">
                             Listening for command...
                         </span>
                     </div>

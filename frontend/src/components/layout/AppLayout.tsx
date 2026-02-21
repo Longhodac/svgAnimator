@@ -1,63 +1,75 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDownIcon as PanelBottomClose, ChevronUpIcon as PanelBottomOpen } from '@heroicons/react/24/outline';
 import { FileSidebar } from '../sidebar/FileSidebar';
 import { SvgCanvas } from '../canvas/SvgCanvas';
 import { Timeline } from '../timeline/Timeline';
 import { PropertiesPanel } from '../properties/PropertiesPanel';
-import { TopNav } from '../navigation/TopNav';
-import { VoiceInteractionModal } from '../voice/VoiceInteractionModal';
+import { VoiceInteractionPanel } from '../voice/VoiceInteractionPanel';
 
 export function AppLayout() {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isVoiceActive, setIsVoiceActive] = useState(false);
+    const [isPropertiesOpen, setIsPropertiesOpen] = useState(false);
 
     const togglePlay = () => setIsPlaying(!isPlaying);
 
     return (
-        <div className="flex flex-col h-screen w-full relative overflow-hidden font-sans">
-            {/* The absolute iridescent sweeping curves background (simulated via CSS for the layout) */}
-            <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full mix-blend-screen filter blur-[100px] bg-gradient-to-tr from-blue-600/20 to-purple-600/20 animate-pulse" style={{ animationDuration: '8s' }} />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full mix-blend-screen filter blur-[120px] bg-gradient-to-bl from-indigo-500/20 to-pink-500/10 animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
-            </div>
+        <div className="flex flex-col h-screen w-full bg-[#000] text-white overflow-hidden font-sans">
 
-            {/* Global Top Navigation */}
-            <TopNav />
+            {/* Main Application Flex Container */}
+            <div className="flex flex-1 w-full min-h-0 p-2 gap-2 relative">
 
-            {/* Main App Workspace */}
-            <div className="flex flex-1 z-10 overflow-hidden pt-4 pb-6 px-6 gap-6">
-
-                {/* Left Panel */}
-                <div className="w-64 flex-shrink-0 flex flex-col relative rounded-2xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl overflow-hidden">
+                {/* Left Panel: Files */}
+                <div className="w-64 flex-shrink-0 flex flex-col relative rounded-lg border border-white/10 bg-[#050505] overflow-hidden">
                     <FileSidebar />
                 </div>
 
-                {/* Center Workspace */}
-                <div className="flex flex-col flex-1 relative gap-6">
-                    <div className="flex-1 relative rounded-2xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col">
-                        {/* Imagica specific headline watermark */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0 opacity-10">
-                            <h2 className="text-[10px] tracking-widest font-bold uppercase mb-4 text-white">BUILD A NO-CODE AI APP IN MINUTES</h2>
-                            <h1 className="text-4xl font-medium tracking-tight text-center max-w-lg leading-tight text-white">A new way to think and create <br />with computers</h1>
-                        </div>
+                {/* Center Column: Editor & Timeline */}
+                <div className="flex flex-col flex-1 relative gap-2 min-w-0 min-h-0">
+                    {/* SVG Editing Canvas */}
+                    <div className="flex-1 relative rounded-lg border border-white/10 bg-[#050505] overflow-hidden flex flex-col min-h-0">
                         <SvgCanvas isPlaying={isPlaying} setProgress={() => { }} />
                     </div>
 
-                    <div className="h-64 flex-shrink-0 relative rounded-2xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl overflow-hidden">
+                    {/* Animation Timeline */}
+                    <div className="h-64 flex-shrink-0 relative rounded-lg border border-white/10 bg-[#050505] overflow-hidden">
                         <Timeline isPlaying={isPlaying} onTogglePlay={togglePlay} progress={0} />
                     </div>
                 </div>
 
-                {/* Right Panel */}
-                <div className="w-80 flex-shrink-0 flex flex-col relative rounded-2xl border border-white/10 bg-black/20 backdrop-blur-xl shadow-2xl overflow-hidden">
-                    <PropertiesPanel onActivateVoice={() => setIsVoiceActive(true)} />
+                {/* Right Column: Voice Experience */}
+                <div className="w-80 flex-shrink-0 relative rounded-lg border border-white/10 bg-[#050505] overflow-hidden flex flex-col shadow-[0_0_50px_rgba(255,255,255,0.03)] selection:bg-white/20 min-h-0">
+                    <VoiceInteractionPanel />
                 </div>
             </div>
 
-            {/* Modals/Overlays */}
-            <VoiceInteractionModal
-                isOpen={isVoiceActive}
-                onClose={() => setIsVoiceActive(false)}
-            />
+            {/* Bottom Toggle Button */}
+            <div className="flex justify-center -mt-4 z-20 relative h-0">
+                <button
+                    type="button"
+                    onClick={() => setIsPropertiesOpen(!isPropertiesOpen)}
+                    className="flex items-center justify-center gap-2 px-4 h-8 rounded-t-lg border-t border-l border-r border-white/10 bg-[#050505] text-white/80 hover:bg-white/5 hover:text-white transition-all transform -translate-y-full"
+                    title={isPropertiesOpen ? 'Close properties' : 'Open properties'}
+                >
+                    <span className="text-xs font-mono tracking-widest uppercase">Properties</span>
+                    {isPropertiesOpen ? <PanelBottomClose className="w-4 h-4" /> : <PanelBottomOpen className="w-4 h-4" />}
+                </button>
+            </div>
+
+            {/* Bottom Properties Panel */}
+            <AnimatePresence initial={false}>
+                {isPropertiesOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 200, opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+                        className="w-full flex-shrink-0 border-t border-white/10 bg-[#050505] overflow-hidden z-10"
+                    >
+                        <PropertiesPanel />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

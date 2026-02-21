@@ -7,7 +7,7 @@ interface SvgCanvasProps {
 }
 
 export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
-    const tl = useRef<gsap.core.Timeline>(null);
+    const tl = useRef<gsap.core.Timeline | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const circleRef = useRef<SVGCircleElement>(null);
     const rectRef = useRef<SVGRectElement>(null);
@@ -71,8 +71,8 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
 
             <div className="absolute top-6 left-6 font-mono text-[10px] text-white/40 tracking-widest uppercase z-10 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
-                Active Scene
+                <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                Canvas
             </div>
 
             <div className="relative z-10 w-full max-w-[700px] h-[500px]">

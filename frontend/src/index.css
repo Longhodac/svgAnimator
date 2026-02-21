@@ -1,37 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-imagica-bg: #040814;
-  /* Deep navy/black base */
-  --color-imagica-surface: rgba(255, 255, 255, 0.03);
-  /* Glassy surface */
-  --color-imagica-border: rgba(255, 255, 255, 0.08);
-  --color-imagica-accent: #3b82f6;
-  /* Bright blue */
-  --color-imagica-accent-hover: #60a5fa;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Outfit', monospace;
+  --color-ship-bg: #000000;
+  --color-ship-surface: #0a0a0a;
+  --color-ship-border: rgba(255, 255, 255, 0.1);
+  --color-ship-accent: #ffffff;
+  --color-ship-accent-hover: #cccccc;
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-mono: 'Montserrat', monospace;
 }
 
 @layer base {
   body {
-    background-color: var(--color-imagica-bg);
-    color: #f8fafc;
+    background-color: var(--color-ship-bg);
+    color: #ffffff;
     font-family: var(--font-sans);
     margin: 0;
     overflow: hidden;
-    /* Adding the deep holographic glowing orb background effect */
-    background-image:
-      radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 50%),
-      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 50%),
-      radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.1), transparent 50%);
+    background-image: none;
   }
 }
 
 /* Custom Scrollbar for sleekness */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -39,10 +32,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.4);
 }
