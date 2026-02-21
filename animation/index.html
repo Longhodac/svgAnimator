@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar System</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      overflow: hidden;
+    }
+    svg {
+      width: 100vmin;
+      height: 100vmin;
+      display: block;
+    }
+    .planet, #sun { cursor: pointer; }
+    #tooltip {
+      position: fixed;
+      padding: 6px 12px;
+      background: rgba(10, 10, 30, 0.9);
+      color: #ddd;
+      border: 1px solid rgba(100, 140, 255, 0.3);
+      border-radius: 6px;
+      font: 13px/1.4 system-ui, sans-serif;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 10;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="tooltip"></div>
+  <svg id="stage" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"  stop-color="#fff7a0" />
+        <stop offset="40%" stop-color="#fdb813" />
+        <stop offset="100%" stop-color="#e8820c" />
+      </radialGradient>
+      <radialGradient id="sunHalo" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"  stop-color="#fdb813" stop-opacity="0.25" />
+        <stop offset="100%" stop-color="#fdb813" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"  stop-color="#0a0a1e" />
+        <stop offset="100%" stop-color="#000005" />
+      </radialGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="sunFilter">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <rect width="1000" height="1000" fill="url(#bgGrad)" />
+
+    <g id="stars"></g>
+
+    <circle cx="500" cy="500" r="70"  fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="110" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="160" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="210" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="280" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="345" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="405" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+    <circle cx="500" cy="500" r="460" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="0.5" />
+
+    <circle id="sunHaloCircle" cx="500" cy="500" r="90" fill="url(#sunHalo)" />
+    <circle id="sun" cx="500" cy="500" r="40" fill="url(#sunGlow)" filter="url(#sunFilter)" />
+
+    <g id="orbit-mercury" data-name="Mercury" data-info="Closest to the Sun">
+      <circle class="planet" id="mercury" cx="570" cy="500" r="4" fill="#b5b5b5" />
+    </g>
+    <g id="orbit-venus" data-name="Venus" data-info="Hottest planet">
+      <circle class="planet" id="venus" cx="610" cy="500" r="7" fill="#e8cda0" />
+    </g>
+    <g id="orbit-earth" data-name="Earth" data-info="Our home">
+      <circle class="planet" id="earth" cx="660" cy="500" r="8" fill="#4b9cd3" filter="url(#glow)" />
+      <g id="orbit-moon">
+        <circle id="moon" cx="678" cy="500" r="2.5" fill="#ccc" />
+      </g>
+    </g>
+    <g id="orbit-mars" data-name="Mars" data-info="The Red Planet">
+      <circle class="planet" id="mars" cx="710" cy="500" r="5.5" fill="#c1440e" />
+    </g>
+    <g id="orbit-jupiter" data-name="Jupiter" data-info="Largest planet">
+      <circle class="planet" id="jupiter" cx="780" cy="500" r="18" fill="#c88b3a" />
+      <ellipse cx="780" cy="500" rx="26" ry="4" fill="none" stroke="#d4a55a" stroke-width="1.5" stroke-opacity="0.35" />
+    </g>
+    <g id="orbit-saturn" data-name="Saturn" data-info="Famous for its rings">
+      <circle class="planet" id="saturn" cx="845" cy="500" r="15" fill="#e4d191" />
+      <ellipse cx="845" cy="500" rx="28" ry="6" fill="none" stroke="#f0dca0" stroke-width="2.5" stroke-opacity="0.5" />
+      <ellipse cx="845" cy="500" rx="34" ry="8" fill="none" stroke="#f0dca0" stroke-width="1" stroke-opacity="0.25" />
+    </g>
+    <g id="orbit-uranus" data-name="Uranus" data-info="Tilted ice giant">
+      <circle class="planet" id="uranus" cx="905" cy="500" r="10" fill="#73c2d0" />
+      <ellipse cx="905" cy="500" rx="16" ry="14" fill="none" stroke="#73c2d0" stroke-width="0.8" stroke-opacity="0.25" />
+    </g>
+    <g id="orbit-neptune" data-name="Neptune" data-info="Farthest planet">
+      <circle class="planet" id="neptune" cx="960" cy="500" r="9.5" fill="#3f54ba" filter="url(#glow)" />
+    </g>
+  </svg>
+
+  <script type="module" src="index.js"></script>
+</body>
+</html>

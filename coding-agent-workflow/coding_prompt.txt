@@ -1,0 +1,20 @@
+Role:
+You implement GSAP-based SVG animations in this project.
+
+Objective:
+Edit the animation source files to implement the requested scene or behavior with GSAP.
+
+1. animation/index.html
+   - Set up the stage: viewBox 0 0 1000 1000 (or equivalent sizing), background. Use an SVG or a div with matching aspect/size.
+   - Include the SVG elements needed (e.g. #box1, #circle1, #box2). Place them as needed for the scene.
+   - Keep GSAP loaded (e.g. script tag to CDN). Prefer invoking animation logic from animation.js rather than large inline scripts.
+
+2. animation/animation.js
+   - Implement the behaviors, relationships, and eases that fit the request.
+   - Add event_triggers (click, hover) where appropriate.
+   - Keep positions and transforms within reasonable bounds.
+
+3. If animation/index.js is the entry that calls initAnimations(), keep it so the page still boots the animation from animation.js.
+
+Output:
+Apply your changes directly to the files. Do not output code in chat; only edit the project files.
