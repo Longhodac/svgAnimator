@@ -14,18 +14,14 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
     const pathRef = useRef<SVGPathElement>(null);
 
     useEffect(() => {
-        // Initialize standard GSAP timeline synced with progress
         const ctx = gsap.context(() => {
             tl.current = gsap.timeline({
                 paused: true,
                 onUpdate: function () {
-                    // Sync GSAP progress up to React state
                     setProgress(this.progress());
                 },
             });
 
-            // Sample Animations matching the tracks in Timeline component
-            // Circle rotates and scales
             tl.current.to(circleRef.current, {
                 rotation: 360,
                 scale: 1.5,
@@ -34,16 +30,14 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
                 transformOrigin: 'center center'
             }, 0);
 
-            // Rect moves across and rounds
             tl.current.to(rectRef.current, {
                 x: -150,
                 rotation: 90,
                 rx: 50,
                 duration: 1.2,
                 ease: 'back.out(1.7)'
-            }, 0.8); // Starts at 20% (0.8s)
+            }, 0.8);
 
-            // Path dash offset
             if (pathRef.current) {
                 const length = pathRef.current.getTotalLength();
                 gsap.set(pathRef.current, { strokeDasharray: length, strokeDashoffset: length });
@@ -51,14 +45,13 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
                     strokeDashoffset: 0,
                     duration: 1.8,
                     ease: 'power1.inOut'
-                }, 1.6); // Starts at 40% (1.6s)
+                }, 1.6);
             }
         }, containerRef);
 
         return () => ctx.revert();
     }, [setProgress]);
 
-    // Handle Play/Pause
     useEffect(() => {
         if (!tl.current) return;
         if (isPlaying) {
@@ -73,32 +66,26 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
     }, [isPlaying]);
 
     return (
-        <div ref={containerRef} className="flex-1 relative bg-[#030303] overflow-hidden flex items-center justify-center border-b border-[#ffffff0a]">
-            {/* Background Grid */}
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
-                style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-            />
+        <div ref={containerRef} className="flex-1 relative overflow-hidden flex items-center justify-center p-8 z-10 w-full h-full">
+            {/* Soft inner glow gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
 
-            {/* Crosshairs */}
-            <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-[#ffffff0a] pointer-events-none" />
-            <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-[#ffffff0a] pointer-events-none" />
-
-            <div className="absolute top-4 left-4 font-mono text-[10px] text-[#555] tracking-widest uppercase z-10 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                SVG Canvas
+            <div className="absolute top-6 left-6 font-mono text-[10px] text-white/40 tracking-widest uppercase z-10 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
+                Active Scene
             </div>
 
-            <div className="relative z-10 w-[600px] h-[400px]">
-                <svg viewBox="0 0 600 400" className="w-full h-full overflow-visible">
-                    {/* A cool animating path */}
+            <div className="relative z-10 w-full max-w-[700px] h-[500px]">
+                <svg viewBox="0 0 600 400" className="w-full h-full overflow-visible drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                     <path
                         ref={pathRef}
                         d="M 50,200 Q 150,50 300,200 T 550,200"
                         fill="none"
-                        stroke="#10b981"
-                        strokeWidth="3"
+                        stroke="#3b82f6"
+                        strokeWidth="2"
                         strokeLinecap="round"
-                        className="opacity-70"
+                        className="opacity-60"
+                        filter="drop-shadow(0px 0px 4px rgba(59, 130, 246, 0.4))"
                     />
 
                     <g transform="translate(200, 200)">
@@ -106,15 +93,16 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
                             ref={circleRef}
                             cx="0" cy="0" r="40"
                             fill="none"
-                            stroke="#7c3aed"
-                            strokeWidth="3"
+                            stroke="#e879f9"
+                            strokeWidth="2"
+                            filter="drop-shadow(0px 0px 8px rgba(232, 121, 249, 0.5))"
                         />
                         <circle
                             cx="0" cy="0" r="60"
                             fill="none"
-                            stroke="#7c3aed"
+                            stroke="#e879f9"
                             strokeWidth="1"
-                            className="opacity-30"
+                            className="opacity-20"
                             strokeDasharray="4 8"
                         />
                     </g>
@@ -125,9 +113,10 @@ export function SvgCanvas({ isPlaying, setProgress }: SvgCanvasProps) {
                         width="100" height="100"
                         rx="12"
                         fill="none"
-                        stroke="#ef4444"
-                        strokeWidth="3"
-                        className="opacity-80"
+                        stroke="#38bdf8"
+                        strokeWidth="2"
+                        className="opacity-70"
+                        filter="drop-shadow(0px 0px 6px rgba(56, 189, 248, 0.4))"
                     />
                 </svg>
             </div>
