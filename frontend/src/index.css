@@ -4,10 +4,11 @@
   --color-ship-bg: #000000;
   --color-ship-surface: #0a0a0a;
   --color-ship-border: rgba(255, 255, 255, 0.1);
-  --color-ship-accent: #ffffff;
-  --color-ship-accent-hover: #cccccc;
+  --color-ship-accent: #d4af37;
+  --color-ship-accent-hover: #f1c40f;
   --font-sans: 'Montserrat', system-ui, sans-serif;
   --font-mono: 'Montserrat', monospace;
+  --font-serif: 'Playfair Display', serif;
 }
 
 @layer base {

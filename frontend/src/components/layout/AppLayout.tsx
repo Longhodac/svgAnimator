@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDownIcon as PanelBottomClose, ChevronUpIcon as PanelBottomOpen } from '@heroicons/react/24/outline';
+import { ChevronDownIcon as PanelBottomClose, ChevronUpIcon as PanelBottomOpen, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { FileSidebar } from '../sidebar/FileSidebar';
 import { SvgCanvas } from '../canvas/SvgCanvas';
 import { Timeline } from '../timeline/Timeline';
 import { PropertiesPanel } from '../properties/PropertiesPanel';
 import { VoiceInteractionPanel } from '../voice/VoiceInteractionPanel';
 
-export function AppLayout() {
+interface AppLayoutProps {
+    onBack: () => void;
+}
+
+export function AppLayout({ onBack }: AppLayoutProps) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPropertiesOpen, setIsPropertiesOpen] = useState(false);
 
@@ -21,6 +25,16 @@ export function AppLayout() {
 
                 {/* Left Panel: Files */}
                 <div className="w-64 flex-shrink-0 flex flex-col relative rounded-lg border border-white/10 bg-[#050505] overflow-hidden">
+                    {/* Back to Home Button */}
+                    <div className="p-3 border-b border-[#333]">
+                        <button 
+                            onClick={onBack}
+                            className="flex items-center gap-2 px-3 py-1.5 w-full rounded-md bg-white/5 hover:bg-white/10 text-[#aaa] hover:text-white transition-all text-xs font-medium"
+                        >
+                            <ArrowLeftIcon className="w-3.5 h-3.5" />
+                            Back to Home
+                        </button>
+                    </div>
                     <FileSidebar />
                 </div>
 

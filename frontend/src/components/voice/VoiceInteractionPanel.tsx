@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MicrophoneIcon as Mic, CommandLineIcon as Type, PaperAirplaneIcon as Send, UserIcon as User, CpuChipIcon as Bot } from '@heroicons/react/24/outline';
 import { VoiceInteractionModal } from './VoiceInteractionModal';
+import { TextShimmer } from '../ui/text-shimmer';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -11,6 +12,7 @@ export function VoiceInteractionPanel() {
     const [isVoiceOpen, setIsVoiceOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
 
     const handleSubmit = (e?: React.FormEvent) => {
         if (e) e.preventDefault();
@@ -18,11 +20,13 @@ export function VoiceInteractionPanel() {
         
         setMessages(prev => [...prev, { role: 'user', content: inputValue }]);
         setInputValue('');
+        setIsGenerating(true);
         
         // Simulate assistant response
         setTimeout(() => {
-            setMessages(prev => [...prev, { role: 'assistant', content: "I'm processing your request. I'll update the animation shortly." }]);
-        }, 1000);
+            setIsGenerating(false);
+            setMessages(prev => [...prev, { role: 'assistant', content: "I've processed your request and updated the animation." }]);
+        }, 2500);
     };
 
     const hasMessages = messages.length > 0;
@@ -69,7 +73,7 @@ export function VoiceInteractionPanel() {
                         <div className="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col">
                             {messages.map((msg, i) => (
                                 <div key={i} className={`flex gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-white/10' : 'bg-blue-500/20 text-blue-400'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-white/10' : 'bg-[#d4af37]/20 text-[#d4af37]'}`}>
                                         {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                                     </div>
                                     <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
@@ -81,6 +85,18 @@ export function VoiceInteractionPanel() {
                                     </div>
                                 </div>
                             ))}
+                            {isGenerating && (
+                                <div className="flex gap-4">
+                                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-[#d4af37]/20 text-[#d4af37]">
+                                        <Bot className="w-4 h-4" />
+                                    </div>
+                                    <div className="max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed bg-transparent border border-white/10 text-white/90 flex items-center">
+                                        <TextShimmer className='font-mono text-sm' duration={1}>
+                                            Generating code...
+                                        </TextShimmer>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Chat Input Area */}
