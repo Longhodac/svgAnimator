@@ -1,5 +1,3 @@
-import { PlayIcon } from '@heroicons/react/24/solid';
-
 export function TopNav() {
     return (
         <nav className="w-full h-24 px-8 md:px-12 flex items-center justify-between z-20 relative border-b border-white/[0.05]">

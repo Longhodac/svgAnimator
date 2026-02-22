@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "workflow:server": "node server/workflow-server.mjs",
+    "dev:full": "concurrently -k \"npm run workflow:server\" \"npm run dev\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -16,6 +18,8 @@
     "@splinetool/runtime": "^1.12.58",
     "@tailwindcss/vite": "^4.2.0",
     "clsx": "^2.1.1",
+    "concurrently": "^9.2.1",
+    "express": "^5.2.1",
     "framer-motion": "^12.34.3",
     "gsap": "^3.14.2",
     "lucide-react": "^0.575.0",
